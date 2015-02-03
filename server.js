@@ -69,11 +69,15 @@ var wss = new WebSocketServer({server: server});
 wss.updateMembers = function (party) {
 	var users = partyUsers[party];
 	var score = partyScores[party];
+	var message = JSON.stringify({
+		score: score,
+		users: users.length
+	})
 
 	wss.clients.forEach(function (client) {
 		// Compare using ints to avoid errors
 		if ( users.indexOf(parseInt(client.user, 10)) !== -1) {
-			client.send(String(score));
+			client.send(message);
 		}
 	});
 };

@@ -13,7 +13,9 @@ $(function () {
 	};
 
 	socket.onmessage = function (message) {
-		$("#score").text(message.data);
+		var parsedData = JSON.parse(message.data);
+		$("#score").text(parsedData.score);
+		$("#users").text(parsedData.users)
 	};
 
 
