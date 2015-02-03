@@ -1,19 +1,22 @@
 var WebSocketServer = require("ws").Server;
 var http 			= require("http");
 var express 		= require("express");
-var cookieParser 	= require("cookieParser");
+var cookieParser 	= require("cookie-parser");
 var bodyParser 		= require("body-parser");
 
-var cookieSecret = "TerribleSecret"
+var cookieSecret = "TerribleSecret";
 
 app = express();
 app.use(cookieParser(cookieSecret));
-app.use(bodyParser.urlencoded());
-app.set('views', './views')
-app.set('view engine', 'jade')
+app.use(bodyParser.urlencoded({
+	extended: true,
+}));
+app.use(express.static("static"));
+app.set('views', './views');
+app.set('view engine', 'jade');
 
 app.get('/', function (req, res) {
-	req.render('new_connection.jade')
+	res.render('new_connection.jade');
 });
 
 
@@ -30,7 +33,7 @@ partyUsers = {};
 userSeq = 0;
 
 app.post('/', function (req, res) {
-	var party = req.body.party
+	var party = req.body.party;
 
 	// Verify party value
 	if (party === '') {
@@ -39,7 +42,7 @@ app.post('/', function (req, res) {
 	}
 
 	// Add party to score count
-	if (! party in partyScores) partyScores[party] = 0;
+	if (! (party in partyScores)) partyScores[party] = 0;
 
 	// Create the user id
 	var user = ++userSeq;
@@ -73,10 +76,16 @@ wss.broadcast = function (data) {
 wss.updateMembers = function (party) {
 	var users = partyUsers[party];
 	var score = partyScores[party];
+	console.log("updating members: %s with score: %s", users, score);
 
-	wss.client.forEach(function (client) {
-		if (client.user in users) {
-			client.send(score);
+	wss.clients.forEach(function (client) {
+		console.log("sending to user: %s", client.user);
+		console.log(client.user);
+		console.log(users);
+		console.log(users.indexOf(client.user));
+		if ( users.indexOf(parseInt(client.user, 10)) !== -1) {
+			console.log("sending score");
+			client.send(String(score));
 		}
 	});
 };
@@ -88,6 +97,7 @@ wss.on("connection", function (ws) {
 
 	// The user is supposed to only send his user-id which is signed
 	ws.on("message", function (message) {
+		console.log("got message %s for user %s in party: %s", message, user, party);
 		// Connect the user on the first message
 		if (user == -1) {
 			userCookie = message;
@@ -98,6 +108,7 @@ wss.on("connection", function (ws) {
 		}
 		// Verify we are still with the same user
 		else if (userCookie !== message) {
+			console.log("cookie is bad!");
 			ws.terminate();
 		}
 		partyScores[party]++;
