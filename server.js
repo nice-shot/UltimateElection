@@ -24,6 +24,30 @@ app.get('/', function (req, res) {
 // Holds the score for each party name
 partyScores = {};
 
+wss.broadcast = function (data) {
+	wss.clients.forEach(function (client) {
+		client.send(data);
+	});
+};
+
+// Sends the party score for all the party users
+wss.updateMembers = function (party) {
+	var users = partyUsers[party];
+	var score = partyScores[party];
+
+	wss.clients.forEach(function (client) {
+wss.broadcast = function (data) {
+	wss.clients.forEach(function (client) {
+		client.send(data);
+	});
+};
+
+// Sends the party score for all the party users
+wss.updateMembers = function (party) {
+	var users = partyUsers[party];
+	var score = partyScores[party];
+
+	wss.clients.forEach(function (client) {
 // STATELESS - Holds the party name for each user
 userParty = {};
 
@@ -66,18 +90,13 @@ server.listen(8000);
 
 var wss = new WebSocketServer({server: server});
 
-wss.broadcast = function (data) {
-	wss.clients.forEach(function (client) {
-		client.send(data);
-	});
-};
-
 // Sends the party score for all the party users
 wss.updateMembers = function (party) {
 	var users = partyUsers[party];
 	var score = partyScores[party];
 
 	wss.clients.forEach(function (client) {
+		// Compare using ints to avoid errors
 		if ( users.indexOf(parseInt(client.user, 10)) !== -1) {
 			client.send(String(score));
 		}
