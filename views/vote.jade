@@ -1,0 +1,11 @@
+extends ./layout.jade
+
+block content
+	h1#party= party
+	button#clicker Vote
+
+	h2
+		span Score: 
+		span#score
+
+	script(src="js/vote.js")
