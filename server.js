@@ -76,15 +76,9 @@ wss.broadcast = function (data) {
 wss.updateMembers = function (party) {
 	var users = partyUsers[party];
 	var score = partyScores[party];
-	console.log("updating members: %s with score: %s", users, score);
 
 	wss.clients.forEach(function (client) {
-		console.log("sending to user: %s", client.user);
-		console.log(client.user);
-		console.log(users);
-		console.log(users.indexOf(client.user));
 		if ( users.indexOf(parseInt(client.user, 10)) !== -1) {
-			console.log("sending score");
 			client.send(String(score));
 		}
 	});
@@ -97,7 +91,6 @@ wss.on("connection", function (ws) {
 
 	// The user is supposed to only send his user-id which is signed
 	ws.on("message", function (message) {
-		console.log("got message %s for user %s in party: %s", message, user, party);
 		// Connect the user on the first message
 		if (user == -1) {
 			userCookie = message;
@@ -108,7 +101,6 @@ wss.on("connection", function (ws) {
 		}
 		// Verify we are still with the same user
 		else if (userCookie !== message) {
-			console.log("cookie is bad!");
 			ws.terminate();
 		}
 		partyScores[party]++;

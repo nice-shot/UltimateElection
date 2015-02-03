@@ -2,13 +2,22 @@ $(function () {
 	"use strict";
 
 	var socket = new WebSocket("ws://" + location.host);
-	socket.onmessage = function (message) {
-		console.log("got message: %s", message);
-		$("#score").text(message.data);		
+	var userCookie = $.cookie("user");
+
+	function sendCookie() {
+		socket.send(userCookie);
+	}
+
+	socket.onopen = function (message) {
+		sendCookie();
 	};
 
-	var userCookie = $.cookie("user");
+	socket.onmessage = function (message) {
+		$("#score").text(message.data);
+	};
+
+
 	$("#clicker").click(function () {
 		socket.send(userCookie);
-	})
+	});
 });
