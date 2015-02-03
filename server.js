@@ -15,39 +15,15 @@ app.use(express.static("static"));
 app.set('views', './views');
 app.set('view engine', 'jade');
 
+// Sends the 'write the party name' page
 app.get('/', function (req, res) {
 	res.render('new_connection.jade');
 });
-
 
 // STATEFULL (need to be loaded from DB)
 // Holds the score for each party name
 partyScores = {};
 
-wss.broadcast = function (data) {
-	wss.clients.forEach(function (client) {
-		client.send(data);
-	});
-};
-
-// Sends the party score for all the party users
-wss.updateMembers = function (party) {
-	var users = partyUsers[party];
-	var score = partyScores[party];
-
-	wss.clients.forEach(function (client) {
-wss.broadcast = function (data) {
-	wss.clients.forEach(function (client) {
-		client.send(data);
-	});
-};
-
-// Sends the party score for all the party users
-wss.updateMembers = function (party) {
-	var users = partyUsers[party];
-	var score = partyScores[party];
-
-	wss.clients.forEach(function (client) {
 // STATELESS - Holds the party name for each user
 userParty = {};
 
@@ -86,7 +62,6 @@ app.post('/', function (req, res) {
 
 var server = http.createServer(app);
 server.listen(8000);
-
 
 var wss = new WebSocketServer({server: server});
 
