@@ -128,7 +128,7 @@ wss.on("connection", function (ws) {
 	// The user is supposed to only send his user-id which is signed
 	ws.on("message", function (message) {
 		ws.user = user = cookieParser.signedCookie(message, cookieSecret);
-		party = userParty[parseInt(user, 10)];
+		party = userParty[user];
 		console.log("got user: %s with party %s", user, party);
 
 		partyScores[party]++;
