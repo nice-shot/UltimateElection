@@ -16,15 +16,22 @@ describe('server response', function () {
 		server.close()
 	});
 
-	it('should return party data', function (done) {
+	function getCookie(party, callback) {
 		var url = "http://localhost:1234";
-		var urlWS = url.replace("http", "ws");
-		request.post(url, {form: {party: 'LIE'}}, function (err, res, body) {
+		request.post(url, {form: {party: party}}, function (err, res, body) {
 			var userCookie = cookieJar.getCookies(url)[0].value;
 			userCookie = decodeURIComponent(userCookie);
+			callback(userCookie);
+		});
+	}
+
+	it('should return basic party data for once client', function (done) {
+		var url = "http://localhost:1234";
+		var urlWS = url.replace("http", "ws");
+		getCookie('LIE', function (userCookie) {
 			var socket = new WebSocket(urlWS);
 
-		socket.onopen = function () {
+			socket.onopen = function () {
 				socket.send(userCookie);
 			}
 
@@ -35,5 +42,16 @@ describe('server response', function () {
 				done();
 			}
 		});
+
+	});
+
+	it('should update the number of users', function (done) {
+		var userCount = 5;
+		var currentUsers = 0;
+		var users = {};
+		for (var i=0; i < 5; i++) {
+			// users[i] = getCookie();
+		}
+		done();
 	});
 });
