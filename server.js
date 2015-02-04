@@ -88,8 +88,7 @@ app.get('/stats', function (req, res) {
 	res.json(partyScores);
 });
 
-var server = http.createServer(app);
-server.listen(8000);
+var server = module.exports = http.createServer(app);
 
 var wss = new WebSocketServer({server: server});
 
