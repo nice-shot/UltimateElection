@@ -33,13 +33,6 @@ partyUsers = {};
 
 userSeq = 0;
 
-// Check that the user is connected to the appropriate party
-function checkUserParty(user, party) {
-	if (userParty[user] !== party) return false;
-	if (partyUsers[party].indexOf(user) === -1) return false;
-	return true;
-}
-
 // Check that the user is cached
 function checkUser(user) {
 	console.log("checking user: %s", user);
@@ -51,10 +44,13 @@ function checkUser(user) {
 // Removes the given user from the cache
 function cleanUser(user) {
 	console.log("cleaning user %s", user);
+	if (! (user in userParty)) return;
 	var party = userParty[user];
 	delete userParty[user];
-	userIndex = partyUsers[party].indexOf(user);
+	console.log("userParty: %s", JSON.stringify(userParty));
+	userIndex = partyUsers[party].indexOf(parseInt(user, 10));
 	if (userIndex !== -1) partyUsers[party].splice(userIndex, 1);
+	console.log("partyUsers: %s", JSON.stringify(partyUsers));
 }
 
 // Adds a userid to the cache
@@ -69,6 +65,7 @@ function addUser(user, party) {
 }
 
 app.post('/', function (req, res) {
+	console.log("got POST request");
 
 	var party = req.body.party;
 
@@ -79,13 +76,13 @@ app.post('/', function (req, res) {
 		return;
 	}
 
-	// Add party to score count
+	// Add party to cache
 	if (! (party in partyScores)) partyScores[party] = 0;
+	if (! (party in partyUsers)) partyUsers[party] = [];
 
 	// Remove user if he refreshed the page
 	if (req.signedCookies.user) {
-		var reqUser = req.signedCookies.user;
-		if (checkUser(reqUser)) cleanUser(reqUser);
+		cleanUser(req.signedCookies.user);
 	}
 
 	var user = ++userSeq;
