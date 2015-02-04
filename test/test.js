@@ -52,7 +52,7 @@ describe('server response', function () {
 		var userCount = 5;
 		var currentUsers = 0;
 		var users = {};
-		for (var i=0; i < 5; i++) {
+		for (var i=0; i < userCount; i++) {
 			getCookie('LIE', function (cookie) {
 				users[i] = cookie;
 				currentUsers++;
@@ -68,6 +68,7 @@ describe('server response', function () {
 			});
 		}
 		setTimeout(function () {
+			// Wait untill all the requests are done.
 			done();
 		}, 300)
 	});
