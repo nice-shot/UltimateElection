@@ -1,9 +1,9 @@
-var util		    = require("util");
+var util            = require("util");
 var WebSocketServer = require("ws").Server;
-var http 			= require("http");
-var express 		= require("express");
-var cookieParser 	= require("cookie-parser");
-var bodyParser 		= require("body-parser");
+var http            = require("http");
+var express         = require("express");
+var cookieParser    = require("cookie-parser");
+var bodyParser      = require("body-parser");
 
 var cookieSecret = "TerribleSecret";
 
