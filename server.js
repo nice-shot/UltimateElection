@@ -1,3 +1,4 @@
+var util		    = require("util");
 var WebSocketServer = require("ws").Server;
 var http 			= require("http");
 var express 		= require("express");
@@ -32,22 +33,32 @@ partyUsers = {};
 
 userSeq = 0;
 
-app.post('/', function (req, res) {
-	var party = req.body.party;
+// Check that the user is connected to the appropriate party
+function checkUserParty(user, party) {
+	if (userParty[user] !== party) return false;
+	if (partyUsers[party].indexOf(user) === -1) return false;
+	return true;
+}
 
-	// Verify party value
-	if (party === '') {
-		res.render('404.jade', {party: party});
-		return;
-	}
+// Check that the user is cached
+function checkUser(user) {
+	console.log("checking user: %s", user);
+	if (! (user in userParty)) return false;
+	console.log("user in userParty");
+	return true;
+}
 
-	// Add party to score count
-	if (! (party in partyScores)) partyScores[party] = 0;
+// Removes the given user from the cache
+function cleanUser(user) {
+	console.log("cleaning user %s", user);
+	var party = userParty[user];
+	delete userParty[user];
+	userIndex = partyUsers[party].indexOf(user);
+	if (userIndex !== -1) partyUsers[party].splice(userIndex, 1);
+}
 
-	// Create the user id
-	var user = ++userSeq;
-
-	// Connect user to party
+// Adds a userid to the cache
+function addUser(user, party) {
 	userParty[user] = party;
 	if (party in partyUsers) {
 		partyUsers[party].push(user);
@@ -55,6 +66,31 @@ app.post('/', function (req, res) {
 	else {
 		partyUsers[party] = [user];
 	}
+}
+
+app.post('/', function (req, res) {
+
+	var party = req.body.party;
+
+	// Verify party value
+	if (party === '') {
+		var error = util.format("Bad party name: '%s'", party);
+		res.render('new_connection.jade', {error: error});
+		return;
+	}
+
+	// Add party to score count
+	if (! (party in partyScores)) partyScores[party] = 0;
+
+	// Remove user if he refreshed the page
+	if (req.signedCookies.user) {
+		var reqUser = req.signedCookies.user;
+		if (checkUser(reqUser)) cleanUser(reqUser);
+	}
+
+	var user = ++userSeq;
+	addUser(user, party);
+
 
 	res.cookie('user', user, {signed: true});
 	res.render('vote.jade', {party: party});
@@ -76,44 +112,34 @@ wss.updateMembers = function (party) {
 	var message = JSON.stringify({
 		score: score,
 		users: users.length
-	})
+	});
+	console.log("current users: %s", users);
 
 	wss.clients.forEach(function (client) {
 		// Compare using ints to avoid errors
 		if ( users.indexOf(parseInt(client.user, 10)) !== -1) {
 			client.send(message);
+			console.log("updated memeber");
 		}
 	});
 };
 
 wss.on("connection", function (ws) {
 	var user = -1;
-	var userCookie = "";
 	var party = "";
 
 	// The user is supposed to only send his user-id which is signed
 	ws.on("message", function (message) {
-		// Connect the user on the first message
-		if (user === -1) {
-			userCookie = message;
-			user = cookieParser.signedCookie(userCookie, cookieSecret);
-			// Used to reference the connection later
-			ws.user = user;
-			party = userParty[user];
-		}
-		// Verify we are still with the same user
-		else if (userCookie !== message) {
-			ws.terminate();
-		}
+		ws.user = user = cookieParser.signedCookie(message, cookieSecret);
+		party = userParty[parseInt(user, 10)];
+		console.log("got user: %s with party %s", user, party);
+
 		partyScores[party]++;
 		wss.updateMembers(party);
 	});
 
 	ws.on("close", function () {
 		if (user === -1) return;
-
-		delete userParty[user];
-		userIndex = partyUsers[party].indexOf(user);
-		delete partyUsers[party][userIndex];
+		cleanUser(user);
 	});
 });

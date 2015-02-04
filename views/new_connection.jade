@@ -4,3 +4,5 @@ block content
 	form(method="POST")
 		input#party(type="text", name="party")
 		input(type="submit")
+	if error
+		b= error

@@ -2,10 +2,10 @@ $(function () {
 	"use strict";
 
 	var socket = new WebSocket("ws://" + location.host);
-	var userCookie = $.cookie("user");
 
 	function sendCookie() {
-		socket.send(userCookie);
+		// Not saving cookie in seperate var since it could change
+		socket.send($.cookie("user"));
 	}
 
 	socket.onopen = function (message) {
@@ -20,7 +20,7 @@ $(function () {
 
 
 	$("#clicker").click(function () {
-		socket.send(userCookie);
+		sendCookie();
 	});
 
 	var $stats = $("#stats");
