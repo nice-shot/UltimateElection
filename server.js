@@ -33,24 +33,16 @@ partyUsers = {};
 
 userSeq = 0;
 
-// Check that the user is cached
-function checkUser(user) {
-	console.log("checking user: %s", user);
-	if (! (user in userParty)) return false;
-	console.log("user in userParty");
-	return true;
-}
-
 // Removes the given user from the cache
 function cleanUser(user) {
-	console.log("cleaning user %s", user);
+	// No point in removing uncached users...
 	if (! (user in userParty)) return;
+
 	var party = userParty[user];
 	delete userParty[user];
-	console.log("userParty: %s", JSON.stringify(userParty));
+
 	userIndex = partyUsers[party].indexOf(parseInt(user, 10));
 	if (userIndex !== -1) partyUsers[party].splice(userIndex, 1);
-	console.log("partyUsers: %s", JSON.stringify(partyUsers));
 }
 
 // Adds a userid to the cache
@@ -65,7 +57,6 @@ function addUser(user, party) {
 }
 
 app.post('/', function (req, res) {
-	console.log("got POST request");
 
 	var party = req.body.party;
 
@@ -110,13 +101,11 @@ wss.updateMembers = function (party) {
 		score: score,
 		users: users.length
 	});
-	console.log("current users: %s", users);
 
 	wss.clients.forEach(function (client) {
 		// Compare using ints to avoid errors
 		if ( users.indexOf(parseInt(client.user, 10)) !== -1) {
 			client.send(message);
-			console.log("updated memeber");
 		}
 	});
 };
@@ -129,7 +118,6 @@ wss.on("connection", function (ws) {
 	ws.on("message", function (message) {
 		ws.user = user = cookieParser.signedCookie(message, cookieSecret);
 		party = userParty[user];
-		console.log("got user: %s with party %s", user, party);
 
 		partyScores[party]++;
 		wss.updateMembers(party);
@@ -138,5 +126,6 @@ wss.on("connection", function (ws) {
 	ws.on("close", function () {
 		if (user === -1) return;
 		cleanUser(user);
+		if (party) wss.updateMembers(party);
 	});
 });
