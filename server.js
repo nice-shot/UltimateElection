@@ -60,6 +60,10 @@ app.post('/', function (req, res) {
 	res.render('vote.jade', {party: party});
 });
 
+app.get('/stats', function (req, res) {
+	res.json(partyScores);
+});
+
 var server = http.createServer(app);
 server.listen(8000);
 
@@ -90,7 +94,7 @@ wss.on("connection", function (ws) {
 	// The user is supposed to only send his user-id which is signed
 	ws.on("message", function (message) {
 		// Connect the user on the first message
-		if (user == -1) {
+		if (user === -1) {
 			userCookie = message;
 			user = cookieParser.signedCookie(userCookie, cookieSecret);
 			// Used to reference the connection later
@@ -103,5 +107,13 @@ wss.on("connection", function (ws) {
 		}
 		partyScores[party]++;
 		wss.updateMembers(party);
+	});
+
+	ws.on("close", function () {
+		if (user === -1) return;
+
+		delete userParty[user];
+		userIndex = partyUsers[party].indexOf(user);
+		delete partyUsers[party][userIndex];
 	});
 });

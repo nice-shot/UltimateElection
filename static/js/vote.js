@@ -22,4 +22,15 @@ $(function () {
 	$("#clicker").click(function () {
 		socket.send(userCookie);
 	});
+
+	var $stats = $("#stats");
+	var statsUrl = "http://" + location.host + "/stats"
+	function updateStats () {
+		$.getJSON(statsUrl).done(function (data) {
+			$stats.text(JSON.stringify(data));
+		});
+	}
+
+	$("#statsBtn").click(updateStats);
+	updateStats();
 });
