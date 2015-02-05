@@ -1,8 +1,12 @@
 extends ./layout.jade
 
 block content
-	form(method="POST")
-		input#party(type="text", name="party")
-		input(type="submit")
+	div.row
+		div#note.col-xs-10.col-sm-5
+			form(method="POST")
+				div.form-group
+					input.form-control(type="text")#party
+
+				button.btn.btn-default(type="submit") submit
 	if error
-		b= error
+		p.text-warning= error
