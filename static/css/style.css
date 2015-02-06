@@ -11,6 +11,14 @@
   src: url(../font/frankruehlclm-medium-webfont.woff);
 }
 
+/********************************/
+/* Fix bootstrap's center-block */
+/********************************/
+
+.center-block {
+	float: none;
+}
+
 /****************/
 /* Note Element */
 /****************/
