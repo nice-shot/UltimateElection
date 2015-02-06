@@ -1,19 +1,27 @@
 extends ./layout.jade
 
 block content
-	h1#party= party
-	button#clicker Vote
+	div.row
+		div#note(class=[
+				"col-xs-10",
+				"col-sm-3",
+				"col-md-3",
+				"col-lg-2",
+				"center-block"
+			])
+			p#party.text-center.noselect= party
 
-	h2
-		span= "Score: "
-		span#score
+	div.row
+		h2
+			span= "Score: "
+			span#score
 
-	h3
-		span#users
-		span= " connected users"
+		h3
+			span#users
+			span= " connected users"
 
-	pre#stats
-	button#statsBtn Refresh
+		pre#stats
+		button#statsBtn Refresh
 
 block jsCode
 	script(src="js/vote.js")

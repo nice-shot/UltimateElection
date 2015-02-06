@@ -1,3 +1,3 @@
 $(function () {
-	else $("#party").focus();
+	$("#party").focus();
 });

@@ -1,5 +1,6 @@
 $(function () {
 	"use strict";
+	FastClick.attach(document.body);
 
 	var socket = new WebSocket("ws://" + location.host);
 
@@ -19,7 +20,7 @@ $(function () {
 	};
 
 
-	$("#clicker").click(function () {
+	$("#note").click(function () {
 		sendCookie();
 	});
 
