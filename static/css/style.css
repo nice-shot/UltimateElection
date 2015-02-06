@@ -16,7 +16,7 @@
 /****************/
 
 #note {
-	height: 60vh;
+	height: 350px;
 	background-color: white;
 	border-style: solid;
 	outline-width: 1px;
@@ -37,6 +37,8 @@ input#party {
 	font-size: 120px;
 	height: 200px;
 	color: black;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 /* Submit button block */
