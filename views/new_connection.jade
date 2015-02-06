@@ -5,6 +5,8 @@ block content
 		div#note.col-xs-10.col-xs-offset-1
 			form(method="POST")
 				div.form-group
-					input.form-control(type="text", name="party")#party
+					input#party.form-control.text-center(type="text",
+														 name="party",
+														 maxlength=3)
 	if error
 		p.text-warning= error
