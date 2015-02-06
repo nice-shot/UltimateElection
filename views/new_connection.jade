@@ -2,11 +2,9 @@ extends ./layout.jade
 
 block content
 	div.row
-		div#note.col-xs-10.col-sm-5
+		div#note.col-xs-10.col-xs-offset-1
 			form(method="POST")
 				div.form-group
-					input.form-control(type="text")#party
-
-				button.btn.btn-default(type="submit") submit
+					input.form-control(type="text", name="party")#party
 	if error
 		p.text-warning= error
