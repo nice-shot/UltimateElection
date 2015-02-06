@@ -1,10 +1,43 @@
+/**********/
+/* Fonts: */
+/**********/
+
+@font-face {
+  font-family: carmela;
+  src: url(../font/carmela.ttf);
+}
+@font-face {
+  font-family: frankruehl;
+  src: url(../font/frankruehlclm-medium-webfont.woff);
+}
+
+/****************/
+/* Note Element */
+/****************/
+
 #note {
 	height: 60vh;
 	background-color: white;
 	border-style: solid;
+	outline-width: 1px;
+	box-shadow: 0px 0px 10px;
 	/*
 	margin-left: auto;
 	margin-right: auto;
 	float: none;
 	*/
+}
+
+#note > form {
+	margin-top: 50%;
+	position: relative;
+}
+
+input#party {
+	border-style: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	direction: rtl;
+	font-family: frankruehl;
+	font-size: 120px;
 }
