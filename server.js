@@ -4,20 +4,24 @@ var http            = require("http");
 var express         = require("express");
 var cookieParser    = require("cookie-parser");
 var bodyParser      = require("body-parser");
+var logger          = require("morgan");
 
 var cookieSecret = "TerribleSecret";
 
 app = express();
+app.use(logger("dev"));
 app.use(cookieParser(cookieSecret));
 app.use(bodyParser.urlencoded({
 	extended: true,
 }));
 app.use(express.static("static"));
+
 app.set('views', './views');
 app.set('view engine', 'jade');
 
 // Sends the 'write the party name' page
 app.get('/', function (req, res) {
+	console.log("received GET from: %s", req.ip);
 	res.render('new_connection.jade');
 });
 
