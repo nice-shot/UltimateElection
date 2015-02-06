@@ -23,6 +23,10 @@
 /* Note Element */
 /****************/
 
+div.row:first-of-type {
+	margin-top: 15px;
+}
+
 #note {
 	height: 350px;
 	background-color: white;
