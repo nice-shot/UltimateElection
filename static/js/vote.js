@@ -1,6 +1,7 @@
 $(function () {
 	"use strict";
 	FastClick.attach(document.body);
+	$("#party").fitText(0.16);
 
 	var socket = new WebSocket("ws://" + location.host);
 

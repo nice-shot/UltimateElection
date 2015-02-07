@@ -40,7 +40,9 @@ div.row:first-of-type {
 }
 
 #note {
-	height: 350px;
+	/*height: 350px;*/
+	height: 0;
+	padding-bottom: 125%;
 	background-color: white;
 	border-style: solid;
 	outline-width: 1px;
@@ -49,7 +51,7 @@ div.row:first-of-type {
 }
 
 #party {
-	margin-top: 40px;
+	/*margin-top: 40px;*/
 	direction: rtl;
 	font-family: frankruehl;
 	font-size: 120px;
@@ -73,4 +75,13 @@ p#party {
 
 div.visible-xs-block {
 	margin-top: 30px;
+}
+
+
+/**************/
+/* Voting Box */
+/**************/
+
+div.box {
+	/*padding-top: 30px;*/
 }
