@@ -56,7 +56,7 @@ $(function () {
 		miniNote.offset(position);
 
 		miniNote.appendTo($("#dropzone"));
-		miniNote.animate({top: "100%"}, 1000, "easeInExpo", function () {
+		miniNote.animate({top: "100%"}, 1300, "easeInExpo", function () {
 			miniNote.remove();
 		});
 	}
