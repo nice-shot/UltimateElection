@@ -40,7 +40,7 @@ $(function () {
 		miniNote.offset(position);
 
 		miniNote.appendTo($("#dropzone"));
-		miniNote.animate({top: "100%"}, 500, "swing", function () {
+		miniNote.animate({top: "100%"}, 1000, "easeInExpo", function () {
 			miniNote.remove();
 		});
 	}

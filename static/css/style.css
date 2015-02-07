@@ -98,6 +98,23 @@ div.box > img {
 	max-width: 260px;
 }
 
+/*Box Text*/
+div.box > div:last-child {
+	font-family: carmela;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	color: white;
+}
+
+div.box > div > h2 {
+	margin-bottom: 20px;
+}
+
+div.box > div > h3 {
+	margin-bottom: 20px;
+}
+
 /*************/
 /* Drop Zone */
 /*************/
