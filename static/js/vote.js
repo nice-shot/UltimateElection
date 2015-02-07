@@ -31,8 +31,7 @@ $(function () {
 		var parsedData = JSON.parse(message.data);
 		score = parsedData.score;
 		updateScore();
-		// $("#score").text(parsedData.score);
-		$("#users").text(parsedData.users)
+		$("#users").text(parsedData.users - 1)
 
 	};
 
