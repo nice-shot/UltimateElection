@@ -97,3 +97,13 @@ div.box > img {
 	width: 75%;
 	max-width: 260px;
 }
+
+/*************/
+/* Drop Zone */
+/*************/
+
+div#dropzone {
+	width: 100%;
+	height: 100vh;
+	margin-bottom: -4px;
+}
