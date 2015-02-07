@@ -14,10 +14,26 @@ $(function () {
 		sendCookie();
 	};
 
+	var score = 0;
+	var scoreWait = false;
+	function updateScore() {
+		var waitTime = 2000;
+		if (! scoreWait) {
+			$("#score").text(score)
+			scoreWait = true;
+			setTimeout(function () {
+				scoreWait = false;
+			}, waitTime);
+		}
+	}
+
 	socket.onmessage = function (message) {
 		var parsedData = JSON.parse(message.data);
-		$("#score").text(parsedData.score);
+		score = parsedData.score;
+		updateScore();
+		// $("#score").text(parsedData.score);
 		$("#users").text(parsedData.users)
+
 	};
 
 
