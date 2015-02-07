@@ -1,7 +1,11 @@
 extends ./layout.jade
 
 block content
-	div.row
+	div.box
+		div#dropzone
+		img.center-block.img-responsive(src="img/votingBox.png")
+
+	div.row.note
 		div(class=[
 				"col-xs-6",
 				"col-sm-3",
@@ -12,9 +16,6 @@ block content
 			div#note
 				p#party.text-center.noselect= party
 
-	div.box
-		div#dropzone
-		img.center-block.img-responsive(src="img/votingBox.png")
 		//- h2
 		//- 	span= "Score: "
 		//- 	span#score
