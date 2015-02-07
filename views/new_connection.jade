@@ -3,17 +3,18 @@ extends ./layout.jade
 block content
 	form(method="POST")
 		div.row
-			div#note(class=[
+			div(class=[
 				"col-xs-10",
 				"col-sm-3",
 				"col-md-3",
 				"col-lg-2",
 				"center-block"
 			])
-				div.form-group
-					input#party.form-control.text-center(type="text",
-														 name="party",
-														 maxlength=3)
+				div#note
+					div.form-group
+						input#party.form-control.text-center(type="text",
+															 name="party",
+															 maxlength=3)
 		div.row.visible-xs-block
 			div.col-xs-1.col-xs-offset-4
 				button.btn.btn-default.center-block(type="submit") Submit

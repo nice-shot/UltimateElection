@@ -52,6 +52,7 @@ div.row:first-of-type {
 
 #party {
 	/*margin-top: 40px;*/
+	margin-top: 15%;
 	direction: rtl;
 	font-family: frankruehl;
 	font-size: 120px;
@@ -65,10 +66,11 @@ input#party {
 	box-shadow: none;
 	padding-left: 0;
 	padding-right: 0;
+	margin-top: 9.5%;
 }
 
 p#party {
-	padding-top: 15px;
+	/*padding-top: 15px;*/
 }
 
 /* Submit button block - only shows in phones */
