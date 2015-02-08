@@ -5,8 +5,10 @@ var express         = require("express");
 var cookieParser    = require("cookie-parser");
 var bodyParser      = require("body-parser");
 var logger          = require("morgan");
+var mysql           = require("mysql");
+var config          = require("./config.json");
 
-var cookieSecret = "TerribleSecret";
+var cookieSecret = config.secret;
 
 app = express();
 app.use(logger("dev"));
