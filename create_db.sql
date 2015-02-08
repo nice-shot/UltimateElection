@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS election;
+CREATE TABLE IF NOT EXISTS election.party (name VARCHAR(3) PRIMARY KEY,
+										   votes BIGINT UNSIGNED)
