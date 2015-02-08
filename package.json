@@ -12,7 +12,11 @@
   },
   "devDependencies": {
     "chai": "^1.10.0",
-    "tough-cookie": "^0.12.1",
-    "request": "^2.53.0"
+    "mocha": "^2.1.0",
+    "request": "^2.53.0",
+    "tough-cookie": "^0.12.1"
+  },
+  "scripts": {
+    "test": "mocha test"
   }
 }

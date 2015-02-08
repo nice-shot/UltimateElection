@@ -1,19 +1,39 @@
 extends ./layout.jade
 
 block content
-	h1#party= party
-	button#clicker Vote
+	div.box
+		div#dropzone
+		img.center-block.img-responsive(src="img/votingBox.png")
+		div.text-center
+			h2
+				span#score.odometer
+				br
+				span קולות בקלפי
+			h3
+				span#users
+				span= " מצביעים נוספים"
 
-	h2
-		span= "Score: "
-		span#score
+	div.row.note
+		div(class=[
+				"col-xs-6",
+				"col-sm-3",
+				"col-md-3",
+				"col-lg-2",
+				"center-block"
+		])
+			div#note
+				p#party.text-center.noselect= party
 
-	h3
-		span#users
-		span= " connected users"
+		//- h2
+		//- 	span= "Score: "
+		//- 	span#score
 
-	pre#stats
-	button#statsBtn Refresh
+		//- h3
+		//- 	span#users
+		//- 	span= " connected users"
+
+		//- pre#stats
+		//- button#statsBtn Refresh
 
 block jsCode
 	script(src="js/vote.js")

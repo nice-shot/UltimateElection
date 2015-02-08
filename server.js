@@ -23,7 +23,6 @@ app.set('view engine', 'jade');
 
 // Sends the 'write the party name' page
 app.get('/', function (req, res) {
-	console.log("received GET from: %s", req.ip);
 	res.render('new_connection.jade');
 });
 
@@ -67,7 +66,7 @@ app.post('/', function (req, res) {
 	var party = req.body.party;
 
 	// Verify party value
-	if (party === '') {
+	if (party === '' || typeof party === 'undefined') {
 		var error = util.format("Bad party name: '%s'", party);
 		res.render('new_connection.jade', {error: error});
 		return;
@@ -100,6 +99,8 @@ var wss = new WebSocketServer({server: server});
 
 // Sends the party score for all the party users
 wss.updateMembers = function (party) {
+	// Prevent users that were dissconected from submiting requests
+	if ( typeof party === "undefined") return;
 	var users = partyUsers[party];
 	var score = partyScores[party];
 	var message = JSON.stringify({
