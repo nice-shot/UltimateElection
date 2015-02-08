@@ -95,6 +95,7 @@ app.post('/', function (req, res) {
 });
 
 app.get('/stats', function (req, res) {
+
 	res.json(partyScores);
 });
 
