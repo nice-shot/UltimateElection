@@ -5,7 +5,8 @@ var express         = require("express");
 var cookieParser    = require("cookie-parser");
 var bodyParser      = require("body-parser");
 var logger          = require("morgan");
-var mysql           = require("mysql");
+
+var db              = require("./db.js");
 var config          = require("./config.json");
 
 var cookieSecret = config.secret;
@@ -29,6 +30,10 @@ app.get('/', function (req, res) {
 // STATEFULL (need to be loaded from DB)
 // Holds the score for each party name
 partyScores = {};
+db.pullParties(partyScores);
+
+// Update DB every few seconds
+setInterval(db.pushParties, config.pushInterval, partyScores);
 
 // STATELESS - Holds the party name for each user
 userParty = {};
