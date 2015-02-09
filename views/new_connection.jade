@@ -18,8 +18,11 @@ block content
 		div.row.visible-xs-block
 			div.col-xs-1.col-xs-offset-4
 				button.btn.btn-default.center-block(type="submit") Submit
-	if error
-		p.text-warning= error
+
+		if error
+			div.row.messages
+				div.col-xs-12
+					h1.text-danger.text-center= error
 
 block jsCode
 	script(src="js/new_connection.js")

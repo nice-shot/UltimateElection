@@ -67,14 +67,27 @@ function addUser(user, party) {
 	}
 }
 
+// Checks if the party name is ok. Returns an error message if not
+function validateParty(party) {
+	if (party === '' || typeof party === 'undefined') {
+		return "Party can't be empty"
+	}
+
+	if (party.length > 3) {
+		return util.format("Party '%s' is too big - maximum 3 letters", party)
+	}
+
+	return null
+}
+
 app.post('/', function (req, res) {
 
 	var party = req.body.party;
 
 	// Verify party value
-	if (party === '' || typeof party === 'undefined') {
-		var error = util.format("Bad party name: '%s'", party);
-		res.render('new_connection.jade', {error: error});
+	var err = validateParty(party);
+	if (err) {
+		res.render('new_connection.jade', {error: err});
 		return;
 	}
 
