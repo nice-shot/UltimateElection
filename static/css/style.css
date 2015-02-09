@@ -40,7 +40,6 @@ div.row.note {
 }
 
 #note {
-	/*height: 350px;*/
 	height: 0;
 	padding-bottom: 125%;
 	background-color: white;
@@ -51,11 +50,9 @@ div.row.note {
 }
 
 #party {
-	/*margin-top: 40px;*/
 	margin-top: 15%;
 	direction: rtl;
 	font-family: frankruehl;
-	/*font-size: 120px;*/
 	height: 200px;
 	color: black;
 }
@@ -67,10 +64,6 @@ input#party {
 	padding: 0 0 0 0;
 	margin-top: 15%;
 	height: auto;
-}
-
-p#party {
-	/*padding-top: 15px;*/
 }
 
 /* Submit button block - only shows in phones */
@@ -125,9 +118,8 @@ div.visible-xs-block {
 	border-style: solid;
 	outline-width: 1px;
 	position: absolute;
-	/*-webkit-transform: scale(0.2);
-	    -ms-transform: scale(0.2);
-	        transform: scale(0.2);*/
+	height: inherit;
+	border-width: thick;
 	-webkit-transform-origin: top left;
 	    -ms-transform-origin: top left;
 	        transform-origin: top left;
