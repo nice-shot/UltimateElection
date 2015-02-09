@@ -1,9 +1,19 @@
 extends ./layout.jade
 
+
 block content
-	div.box
-		div#dropzone
-		img.center-block.img-responsive(src="img/votingBox.png")
+	- middleCls = ["col-xs-6", "col-sm-3", "col-md-3", "col-lg-2", "center-block"]
+
+	div.row.note
+		div(class=middleCls)
+			div#note
+				p#party.text-center.noselect= party
+
+	div.row
+
+		//- div#dropzone
+		//- img.center-block.img-responsive(src="img/votingBox.png",
+		//- 								class=middleCls)
 		div.text-center
 			h2
 				span#score.odometer
@@ -13,16 +23,6 @@ block content
 				span#users
 				span= " מצביעים נוספים"
 
-	div.row.note
-		div(class=[
-				"col-xs-6",
-				"col-sm-3",
-				"col-md-3",
-				"col-lg-2",
-				"center-block"
-		])
-			div#note
-				p#party.text-center.noselect= party
 
 		//- h2
 		//- 	span= "Score: "
