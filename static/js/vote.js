@@ -59,8 +59,10 @@ $(function () {
 		miniNote.offset(position);
 
 		var dropzone = $("#dropzone > div");
+		// Drop time based on height to make it slower in smaller screens
+		var dropTime = 2000 - dropzone.height();
 		miniNote.appendTo(dropzone);
-		miniNote.animate({top: dropzone.height()}, 1300, "easeInExpo", function () {
+		miniNote.animate({top: dropzone.height()}, dropTime, "easeInExpo", function () {
 			miniNote.remove();
 		});
 	}
