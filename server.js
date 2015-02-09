@@ -5,6 +5,7 @@ var express         = require("express");
 var cookieParser    = require("cookie-parser");
 var bodyParser      = require("body-parser");
 var logger          = require("morgan");
+var async           = require("async");
 
 var db              = require("./db.js");
 var config          = require("./config.json");
@@ -95,8 +96,22 @@ app.post('/', function (req, res) {
 });
 
 app.get('/stats', function (req, res) {
+	var party = userParty[req.signedCookies.user];
 
-	res.json(partyScores);
+	async.parallel(
+		[
+			db.getTopTen,
+			db.getPartyNeighbors.bind(null, party),
+		],
+		function (err, results) {
+			var statsScores = {
+				topTen: results[0],
+				nearUser: results[1],
+				party: party
+			};
+			res.json(statsScores);
+		}
+	);
 });
 
 var server = module.exports = http.createServer(app);

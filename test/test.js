@@ -30,7 +30,7 @@ describe('server response', function () {
 		});
 	}
 
-	it('should return basic party data for once client', function (done) {
+	it('should return basic party data for one client', function (done) {
 		getCookie('LIE', function (userCookie) {
 			var socket = new WebSocket(urlWS);
 
@@ -70,6 +70,18 @@ describe('server response', function () {
 		setTimeout(function () {
 			// Wait untill all the requests are done.
 			done();
-		}, 300)
+		}, 400)
+	});
+
+	it('should return the basic stats', function (done) {
+		getCookie('DRY', function (cookie) {
+			request.get(url + "/stats", function (err, res, body) {
+				res.statusCode.shoud.equal(200);
+				Object.keys(JSON.parse(body)).should.equal(
+					[ 'topTen', 'nearUser', 'party' ]
+				);
+				done();
+			});
+		});
 	});
 });
