@@ -45,16 +45,23 @@ $(function () {
 
 		// MiniNote size is calculated before its created to avoid gittering
 		var scale = 0.2;
+		var rotate = Math.random() * 360;
+		var transform = "scale(" + scale + ") rotate(" + rotate + "deg)";
+
+		miniNote.css("transform", transform);
+		miniNote.css("-webkit-transform", transform);
+		miniNote.css("-ms-transform", transform);
+
 		var miniHeight = note.outerHeight() * scale;
 		var miniWidth = note.outerWidth() * scale;
-		var padding = 5;
+		var padding = miniHeight + 50;
 
 		var position = {
 			top: -2 * miniHeight,
 			left: padding + note.offset().left
 		};
 
-		position.left += Math.random() * (note.outerWidth() - miniWidth - padding)
+		position.left += Math.random() * (note.outerWidth() - miniWidth - (padding*2));
 
 		miniNote.offset(position);
 
@@ -62,7 +69,8 @@ $(function () {
 		// Drop time based on height to make it slower in smaller screens
 		var dropTime = 2000 - dropzone.height();
 		miniNote.appendTo(dropzone);
-		miniNote.animate({top: dropzone.height()}, dropTime, "easeInExpo", function () {
+		miniNote.animate({top: dropzone.height() + 30}, dropTime, "easeInExpo",
+						 function () {
 			miniNote.remove();
 		});
 	}

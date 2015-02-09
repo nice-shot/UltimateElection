@@ -125,9 +125,9 @@ div.visible-xs-block {
 	border-style: solid;
 	outline-width: 1px;
 	position: absolute;
-	-webkit-transform: scale(0.2);
+	/*-webkit-transform: scale(0.2);
 	    -ms-transform: scale(0.2);
-	        transform: scale(0.2);
+	        transform: scale(0.2);*/
 	-webkit-transform-origin: top left;
 	    -ms-transform-origin: top left;
 	        transform-origin: top left;
