@@ -54,7 +54,7 @@ $(function () {
 
 		var miniHeight = note.outerHeight() * scale;
 		var miniWidth = note.outerWidth() * scale;
-		var padding = miniHeight + 50;
+		var padding = miniHeight;
 
 		var position = {
 			top: -2 * miniHeight,
@@ -67,7 +67,7 @@ $(function () {
 
 		var dropzone = $("#dropzone > div");
 		// Drop time based on height to make it slower in smaller screens
-		var dropTime = 2000 - dropzone.height();
+		var dropTime = 1500 - dropzone.height();
 		miniNote.appendTo(dropzone);
 		miniNote.animate({top: dropzone.height() + 30}, dropTime, "easeInExpo",
 						 function () {
