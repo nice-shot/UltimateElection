@@ -80,11 +80,30 @@ $(function () {
 		sendCookie();
 	});
 
-	var $stats = $("#stats");
+
+	function appendToTable(items, $table) {
+		var $tbody = $("<tbody>");
+		items.forEach(function (item) {
+			var $row = $("<tr>");
+			["rank", "name", "votes"].forEach(function (col) {
+				$row.append($("<td>").text(item[col]));
+			});
+			$tbody.append($row);
+		});
+		$tbody.appendTo($table);
+	}
+
 	var statsUrl = "http://" + location.host + "/stats"
 	function updateStats () {
+		// Clean tables
+		$("table").find("tbody").remove();
+
+		var $topTen = $("#topTen");
+		var $nearUser = $("#nearUser");
+
 		$.getJSON(statsUrl).done(function (data) {
-			$stats.text(JSON.stringify(data));
+			appendToTable(data.topTen, $topTen);
+			appendToTable(data.nearUser, $nearUser);
 		});
 	}
 

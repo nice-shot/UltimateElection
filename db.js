@@ -42,12 +42,13 @@ module.exports = {
 		connection.query(sql, function (err, rows, fields) {
 			if (err) throw err;
 
-			var topTenScores = {}
+			// Adds rank to each row
+			var rank = 0;
 			rows.forEach(function (item) {
-				topTenScores[item.name] = item.votes;
+				item.rank = ++rank;
 			});
 
-			callback(null, topTenScores);
+			callback(null, rows);
 		});
 	},
 
@@ -56,12 +57,7 @@ module.exports = {
 		var sql = fs.readFileSync('rank_query.sql').toString();
 		connection.query(sql, [party], function(err, rows, fields) {
 			if (err) throw err;
-			var areaScore = {}
-			rows.forEach(function (item) {
-				areaScore[item.name] = item.votes
-			});
-
-			callback(null, areaScore);
+			callback(null, rows);
 		});
 	},
 };

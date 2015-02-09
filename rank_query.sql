@@ -1,4 +1,4 @@
-SELECT ranked.name, ranked.votes
+SELECT ranked.name, ranked.votes, ranked.rank
   FROM (SELECT name, votes, @rank:=@rank + 1 AS rank
           FROM election.party, (SELECT @rank:=0) AS init
          ORDER BY votes DESC) AS ranked,
