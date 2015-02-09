@@ -36,26 +36,31 @@ $(function () {
 	};
 
 
+	var noteInd = 0;
 	function dropNote() {
-		console.log("dropping note");
 		var note = $("#note");
 		var miniNote = note.clone();
 		miniNote.removeAttr("id");
 		miniNote.addClass("mini-note");
-		var position = note.offset();
-		var miniWidth = note.outerWidth() * 0.2;
 
-		// To counter the offset from the dropzone
-		position.top += $(".box > img").height();
-		position.top += (note.outerHeight() / 2)
-		// the dropbox opening is a bit bigger
-		position.left += miniWidth;
-		position.left += Math.random() * (note.outerWidth() - miniWidth * 3)
+		// MiniNote size is calculated before its created to avoid gittering
+		var scale = 0.2;
+		var miniHeight = note.outerHeight() * scale;
+		var miniWidth = note.outerWidth() * scale;
+		var padding = 5;
+
+		var position = {
+			top: -2 * miniHeight,
+			left: padding + note.offset().left
+		};
+
+		position.left += Math.random() * (note.outerWidth() - miniWidth - padding)
 
 		miniNote.offset(position);
 
-		miniNote.appendTo($("#dropzone"));
-		miniNote.animate({top: "100%"}, 1300, "easeInExpo", function () {
+		var dropzone = $("#dropzone > div");
+		miniNote.appendTo(dropzone);
+		miniNote.animate({top: dropzone.height()}, 1300, "easeInExpo", function () {
 			miniNote.remove();
 		});
 	}
