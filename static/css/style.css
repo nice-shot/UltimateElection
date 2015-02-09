@@ -55,7 +55,7 @@ div.row.note {
 	margin-top: 15%;
 	direction: rtl;
 	font-family: frankruehl;
-	font-size: 120px;
+	/*font-size: 120px;*/
 	height: 200px;
 	color: black;
 }

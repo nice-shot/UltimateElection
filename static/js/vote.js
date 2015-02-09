@@ -104,6 +104,11 @@ $(function () {
 		$.getJSON(statsUrl).done(function (data) {
 			appendToTable(data.topTen, $topTen);
 			appendToTable(data.nearUser, $nearUser);
+			var partySearch = function () {
+				return $(this).find("td:nth-child(2)").text() === data.party;
+			};
+			var $partyRows = $("table").find("tr").filter(partySearch);
+			$partyRows.addClass("success");
 		});
 	}
 
