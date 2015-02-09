@@ -80,6 +80,31 @@ div.visible-xs-block {
 }
 
 
+
+/**************/
+/* Voting Box */
+/**************/
+
+#box-container {
+	position: relative;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#box-container > div.text-center {
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+	font-family: carmela;
+	color: white;
+}
+
+
+
+
+
+
+
 /**************/
 /* Voting Box */
 /**************/
