@@ -1,3 +1,5 @@
+// NOT WORKING FOR NOW - TEST MANUALLY
+
 var server = require('../server.js');
 
 // var expect = require('chai').expect;
