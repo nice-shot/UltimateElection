@@ -3,37 +3,63 @@ $(function () {
 	FastClick.attach(document.body);
 	$("#party").fitText(0.16);
 
-	var socket = new WebSocket("ws://" + location.host);
+	var socket;
 
 	function sendCookie() {
 		// Not saving cookie in seperate var since it might change
 		socket.send($.cookie("user"));
 	}
 
-	socket.onopen = function (message) {
-		sendCookie();
-	};
-
-	var score = 0;
-	var scoreWait = false;
-	function updateScore() {
-		var waitTime = 2000;
-		if (! scoreWait) {
-			$("#votes").text(score)
-			scoreWait = true;
-			setTimeout(function () {
-				scoreWait = false;
-			}, waitTime);
+	var retries = 0;
+	(function setUpSocket() {
+		if (retries === 0) {
+			socket = new WebSocket("ws://" + location.host);
 		}
-	}
+		else if (retries < 2) {
+			var hostname = location.host.split(':')[0];
+			socket = new WebSocket("ws://" + hostname + ":8080");
+		}
+		else {
+			var message = $("<div>");
+			message.addClass("alert alert-danger");
+			message.text("לא ניתן להתחבר לשרת :(");
+			message.appendTo($(".row.messages"));
+			return
+		}
 
-	socket.onmessage = function (message) {
-		var parsedData = JSON.parse(message.data);
-		score = parsedData.score;
-		updateScore();
-		$("#users").text(parsedData.users - 1)
+		socket.onopen = function () {
+			sendCookie();
+		};
 
-	};
+		var score = 0;
+		var scoreWait = false;
+		function updateScore() {
+			var waitTime = 2000;
+			if (! scoreWait) {
+				$("#votes").text(score)
+				scoreWait = true;
+				setTimeout(function () {
+					scoreWait = false;
+				}, waitTime);
+			}
+		}
+
+		socket.onmessage = function (event) {
+			var parsedData = JSON.parse(event.data);
+			score = parsedData.score;
+			updateScore();
+			$("#users").text(parsedData.users - 1)
+
+		};
+
+		socket.onerror = function () {
+			retries++;
+			setUpSocket();
+		}
+	})();
+
+
+
 
 
 	var noteInd = 0;
