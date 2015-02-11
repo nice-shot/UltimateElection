@@ -145,3 +145,11 @@ div.visible-xs-block {
 .messages {
 	direction: rtl;
 }
+
+/****************/
+/* Stats Tables */
+/****************/
+
+#statsRefresh {
+	margin-bottom: 20px;
+}

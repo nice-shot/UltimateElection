@@ -112,6 +112,6 @@ $(function () {
 		});
 	}
 
-	$("#statsBtn").click(updateStats);
+	$("#statsRefresh").click(updateStats);
 	updateStats();
 });

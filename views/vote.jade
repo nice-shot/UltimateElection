@@ -51,18 +51,7 @@ block content
 					th= trans.rank
 					th= trans.party
 					th= trans.votes
-		button#statsRefresh= trans.refreshStats
-
-		//- h2
-		//- 	span= "Score: "
-		//- 	span#score
-
-		//- h3
-		//- 	span#users
-		//- 	span= " connected users"
-
-		//- pre#stats
-		//- button#statsBtn Refresh
+		button#statsRefresh.btn.btn-primary.btn-block= trans.refreshStats
 
 block jsCode
 	script(src="js/vote.js")
