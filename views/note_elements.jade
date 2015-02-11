@@ -1,0 +1,31 @@
+div.row.note
+	div(class=[
+			"col-xs-6",
+			"col-sm-3",
+			"col-md-4",
+			"col-lg-2",
+			"center-block"
+		])
+		div#note.center-block
+			p#party.text-center.noselect= party
+
+div.row#dropzone
+	div
+
+div.row.box
+	div#box-container(class=[
+		"col-xs-8",
+		"col-sm-4",
+		"col-md-5",
+		"col-lg-2",
+		"center-block"
+	])
+		img.center-block.img-responsive(src="img/votingBox.png")
+		div.text-center
+			h2
+				span#votes.odometer
+				br
+				span= trans.votesCounted
+			h3
+				span#users
+				span= " " + trans.additionalVoters
