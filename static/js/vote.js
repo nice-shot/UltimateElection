@@ -19,7 +19,7 @@ $(function () {
 	function updateScore() {
 		var waitTime = 2000;
 		if (! scoreWait) {
-			$("#score").text(score)
+			$("#votes").text(score)
 			scoreWait = true;
 			setTimeout(function () {
 				scoreWait = false;

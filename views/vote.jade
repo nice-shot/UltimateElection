@@ -32,31 +32,31 @@ block content
 			img.center-block.img-responsive(src="img/votingBox.png")
 			div.text-center
 				h2
-					span#score.odometer
+					span#votes.odometer
 					br
-					span קולות בקלפי
+					span= trans.votesCounted
 				h3
 					span#users
-					span= " מצביעים נוספים"
+					span= " " + trans.additionalVoters
 
 	hr
 
-	div.row
-		h2.text-center Top 10:
+	div.row.rtl
+		h2.text-center= trans.topTen + ":"
 		table.table#topTen
 			thead
 				tr
-					th Rank
-					th Party
-					th Score
+					th= trans.rank
+					th= trans.party
+					th= trans.votes
 
-		h2.text-center Your Group:
+		h2.text-center= trans.nearUser + ":"
 		table.table#nearUser
 			thead
 				tr
-					th Rank
-					th Party
-					th Score
+					th= trans.rank
+					th= trans.party
+					th= trans.votes
 
 		//- h2
 		//- 	span= "Score: "

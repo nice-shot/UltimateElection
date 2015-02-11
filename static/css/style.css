@@ -11,13 +11,20 @@
   src: url(../font/frankruehlclm-medium-webfont.woff);
 }
 
-/********************************/
-/* Fix bootstrap's center-block */
-/********************************/
+/******************/
+/* Helper classes */
+/******************/
 
+/* Fix bootstrap's center-block */
 .center-block {
 	float: none;
 }
+
+.rtl {
+	direction: rtl;
+	text-align: right;
+}
+
 
 /*********************/
 /* Prevent selection */
@@ -123,4 +130,12 @@ div.visible-xs-block {
 	-webkit-transform-origin: top left;
 	    -ms-transform-origin: top left;
 	        transform-origin: top left;
+}
+
+
+/**********/
+/* Alerts */
+/**********/
+.messages {
+	direction: rtl;
 }

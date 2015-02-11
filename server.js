@@ -9,6 +9,7 @@ var async           = require("async");
 
 var db              = require("./db.js");
 var config          = require("./config.json");
+var trans           = require("./translations.json");
 
 var cookieSecret = config.secret;
 
@@ -67,17 +68,23 @@ function addUser(user, party) {
 	}
 }
 
+var hebrewRegexp = new RegExp(trans.hebrewRe);
 // Checks if the party name is ok. Returns an error message if not
 function validateParty(party) {
 	if (party === '' || typeof party === 'undefined') {
-		return "Party can't be empty"
+		return trans.err.emptyParty;
 	}
 
 	if (party.length > 3) {
-		return util.format("Party '%s' is too big - maximum 3 letters", party)
+		return util.format(trans.err.tooBig, party);
 	}
 
-	return null
+	debugger
+	if (! hebrewRegexp.test(party)) {
+		return trans.err.onlyHebrew
+	}
+
+	return null;
 }
 
 app.post('/', function (req, res) {
@@ -105,7 +112,7 @@ app.post('/', function (req, res) {
 
 
 	res.cookie('user', user, {signed: true});
-	res.render('vote.jade', {party: party});
+	res.render('vote.jade', {party: party, trans: trans});
 });
 
 app.get('/stats', function (req, res) {

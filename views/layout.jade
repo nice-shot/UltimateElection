@@ -14,6 +14,20 @@ html
 			link(href="/css/style.css", rel="stylesheet")
 	body
 		div.container-fluid
+			div.row.messages
+				div.col-xs-12
+					if error
+						div(class=[
+								"alert",
+								"alert-danger",
+								"alert-dismissible",
+								//- "text-center"
+							], role="alert")
+							button.close(type="button", data-dismiss="alert",
+										 aria-label="Close")
+								span(aria-hidden="true") &times;
+							= error
+
 			block content
 
 		block jsDepends
