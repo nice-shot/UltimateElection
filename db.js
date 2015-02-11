@@ -29,6 +29,9 @@ module.exports = {
 
 		for (var name in partyScores) {
 			var votes = partyScores[name];
+			if (votes === NaN || typeof votes !== 'number') {
+				continue;
+			}
 			connection.query(sql, [name, votes, votes]);
 		}
 	},
