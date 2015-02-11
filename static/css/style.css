@@ -47,20 +47,26 @@ div.row.note {
 }
 
 #note {
+	/*
 	height: 0;
 	padding-bottom: 125%;
+	*/
 	background-color: white;
 	border-style: solid;
 	outline-width: 1px;
 	box-shadow: 0px 0px 10px;
 	max-width: 250px;
+	-webkit-transform: rotate(3deg);
+	    -ms-transform: rotate(3deg);
+	        transform: rotate(3deg);
 }
 
 #party {
 	margin-top: 15%;
+	margin-bottom: 25%;
 	direction: rtl;
 	font-family: frankruehl;
-	height: 200px;
+	/*height: 200px;*/
 	color: black;
 }
 
@@ -123,9 +129,9 @@ div.visible-xs-block {
 .mini-note {
 	background-color: white;
 	border-style: solid;
-	outline-width: 1px;
+	outline-width: bold;
 	position: absolute;
-	height: inherit;
+	/*height: inherit;*/
 	border-width: thick;
 	-webkit-transform-origin: top left;
 	    -ms-transform-origin: top left;
