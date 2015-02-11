@@ -20,7 +20,8 @@
 	float: none;
 }
 
-.rtl {
+.rtl,
+.rtl th {
 	direction: rtl;
 	text-align: right;
 }
