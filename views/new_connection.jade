@@ -1,6 +1,13 @@
 extends ./layout.jade
 
 block content
+	div.row.rtl
+		h2.text-center איך משחקים?
+		ol
+			li בחר שם מפלגה
+			li לחץ על הפתק כדי להצביע
+			li המפלגה עם מספר הקולות הגדול ביותר עד ה17.3 תרכיב ממשלה!
+
 	form(method="POST")
 		div.row.note
 			div(class=[
@@ -10,14 +17,14 @@ block content
 				"col-lg-2",
 				"center-block"
 			])
-				div#note
+				div#note.input
 					div.form-group
 						input#party.form-control.text-center(type="text",
 															 name="party",
 															 maxlength=3)
-		div.row.visible-xs-block
-			div.col-xs-1.col-xs-offset-4
-				button.btn.btn-default.center-block(type="submit") Submit
+		div.row.rtl
+			div.col-xs-12.center-block
+				button.btn.btn-default.center-block(type="submit") תתחיל להצביע
 
 block jsCode
 	script(src="js/new_connection.js")

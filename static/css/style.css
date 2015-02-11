@@ -43,6 +43,10 @@
 /* Note Element */
 /****************/
 
+form .note {
+	margin-bottom: 30px;
+}
+
 div.row.note {
 	margin-top: 15px;
 }
@@ -60,6 +64,12 @@ div.row.note {
 	-webkit-transform: rotate(3deg);
 		-ms-transform: rotate(3deg);
 			transform: rotate(3deg);
+}
+
+#note.input {
+	-webkit-transform: none;
+		-ms-transform: none;
+			transform: none;
 }
 
 #party {

@@ -7,5 +7,5 @@ SELECT ranked.name, ranked.votes, ranked.rank
                   FROM election.party, (SELECT @rank_a:=0) AS init
                  ORDER BY votes DESC) AS ranked
          WHERE name = ?) AS user_rank
- WHERE ranked.rank > user_rank.rank - 4
- 	   AND ranked.rank < user_rank.rank + 4
+ WHERE ranked.rank > user_rank.rank - 3
+ 	   AND ranked.rank < user_rank.rank + 3
