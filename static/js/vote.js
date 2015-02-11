@@ -95,13 +95,13 @@ $(function () {
 
 	var statsUrl = "http://" + location.host + "/stats"
 	function updateStats () {
-		// Clean tables
-		$("table").find("tbody").remove();
 
 		var $topTen = $("#topTen");
 		var $nearUser = $("#nearUser");
 
 		$.getJSON(statsUrl).done(function (data) {
+			// Clean tables
+			$("table").find("tbody").remove();
 			appendToTable(data.topTen, $topTen);
 			appendToTable(data.nearUser, $nearUser);
 			var partySearch = function () {
