@@ -1,22 +1,25 @@
 $(function () {
 	"use strict";
 
+	FastClick.attach(document.body);
+	$("#party").fitText(0.16);
+
+	// Hebrew text
 	var trans = $.ajax({
 		url: "/lang/he.json",
 		async: false,
 		dataType: "json"
 	}).responseJSON;
-	FastClick.attach(document.body);
-	$("#party").fitText(0.16);
+
 
 	function alert(message, level) {
 		var alertDiv = $("<div>");
 		alertDiv.addClass("alert");
 		alertDiv.addClass("alert-" + level);
 
-		var closeBtn = $('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+		var closeBtn = $('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"> &times; </span></button>');
 		closeBtn.appendTo(alertDiv);
-		alertDiv.append(message);
+		alertDiv.append("&nbps;" + message);
 		alertDiv.appendTo($(".row.messages"));
 	}
 
@@ -37,10 +40,7 @@ $(function () {
 			socket = new WebSocket("ws://" + hostname + ":8080");
 		}
 		else {
-			var message = $("<div>");
-			message.addClass("alert alert-danger");
-			message.text();
-			message.appendTo($(".row.messages"));
+			alert(trans.wsCantConnect, "danger");
 			return;
 		}
 
@@ -50,12 +50,25 @@ $(function () {
 			sendCookie();
 		};
 
+		function appendToTable(items, $table) {
+			var $tbody = $("<tbody>");
+			$tbody.empty();
+			items.forEach(function (item) {
+				var $row = $("<tr>");
+				["rank", "name", "votes"].forEach(function (col) {
+					$row.append($("<td>").text(item[col]));
+				});
+				$tbody.append($row);
+			});
+			$tbody.appendTo($table);
+		}
+
 		var score = 0;
 		var scoreWait = false;
 		function updateScore() {
 			var waitTime = 2000;
 			if (! scoreWait) {
-				$("#votes").text(score)
+				$("#votes").text(score);
 				scoreWait = true;
 				setTimeout(function () {
 					scoreWait = false;
@@ -65,9 +78,22 @@ $(function () {
 
 		socket.onmessage = function (event) {
 			var parsedData = JSON.parse(event.data);
-			score = parsedData.score;
-			updateScore();
-			$("#users").text(parsedData.users - 1)
+			if (parsedData.score) {
+				score = parsedData.score;
+				updateScore();
+			}
+			if (parsedData.users) {
+				$("#users").text(parsedData.users - 1)
+			}
+
+			if (parsedData.neighbors) {
+				appendToTable(parsedData.neighbors, $("#nearUser"));
+			}
+
+			if (parsedData.topTen) {
+				appendToTable(parsedData.topTen, $("#topTen"));
+			}
+
 
 		};
 
@@ -124,39 +150,4 @@ $(function () {
 		dropNote();
 		sendCookie();
 	});
-
-
-	function appendToTable(items, $table) {
-		var $tbody = $("<tbody>");
-		items.forEach(function (item) {
-			var $row = $("<tr>");
-			["rank", "name", "votes"].forEach(function (col) {
-				$row.append($("<td>").text(item[col]));
-			});
-			$tbody.append($row);
-		});
-		$tbody.appendTo($table);
-	}
-
-	var statsUrl = "http://" + location.host + "/stats"
-	function updateStats () {
-
-		var $topTen = $("#topTen");
-		var $nearUser = $("#nearUser");
-
-		$.getJSON(statsUrl).done(function (data) {
-			// Clean tables
-			$("table").find("tbody").remove();
-			appendToTable(data.topTen, $topTen);
-			appendToTable(data.nearUser, $nearUser);
-			var partySearch = function () {
-				return $(this).find("td:nth-child(2)").text() === data.party;
-			};
-			var $partyRows = $("table").find("tr").filter(partySearch);
-			$partyRows.addClass("success");
-		});
-	}
-
-	$("#statsRefresh").click(updateStats);
-	updateStats();
 });
