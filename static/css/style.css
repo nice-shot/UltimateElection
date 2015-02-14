@@ -64,6 +64,7 @@ div.row.note {
 	-webkit-transform: rotate(3deg);
 		-ms-transform: rotate(3deg);
 			transform: rotate(3deg);
+	cursor: pointer;
 }
 
 #note.input {
