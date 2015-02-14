@@ -65,8 +65,7 @@ function Party (partyName) {
 
 	// Returns a list with the 3 preceding parties, this and the 3 proceeding
 	this.getNeighborhood = function () {
-		var neighborhood = parties.slice(this.rank - 3, 7);
-		return parties.slice(this.rank - 3, 7);
+		return parties.slice(self.rank - 3, 7);
 	};
 }
 

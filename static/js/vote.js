@@ -12,14 +12,15 @@ $(function () {
 	}).responseJSON;
 
 
-	function alert(message, level) {
+	function alertMsg(message, level) {
 		var alertDiv = $("<div>");
 		alertDiv.addClass("alert");
 		alertDiv.addClass("alert-" + level);
+		alertDiv.addClass("fade in");
 
 		var closeBtn = $('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"> &times; </span></button>');
 		closeBtn.appendTo(alertDiv);
-		alertDiv.append("&nbps;" + message);
+		alertDiv.append("&nbsp;" + message);
 		alertDiv.appendTo($(".row.messages"));
 	}
 
@@ -40,7 +41,7 @@ $(function () {
 			socket = new WebSocket("ws://" + hostname + ":8080");
 		}
 		else {
-			alert(trans.wsCantConnect, "danger");
+			alertMsg(trans.wsCantConnect, "danger");
 			return;
 		}
 
@@ -52,14 +53,16 @@ $(function () {
 
 		function appendToTable(items, $table) {
 			var $tbody = $("<tbody>");
-			$tbody.empty();
 			items.forEach(function (item) {
+				// So ranks will start from 1
+				item.rank++;
 				var $row = $("<tr>");
-				["rank", "name", "votes"].forEach(function (col) {
+				["rank", "partyName", "score"].forEach(function (col) {
 					$row.append($("<td>").text(item[col]));
 				});
 				$tbody.append($row);
 			});
+			$table.find("tbody").remove();
 			$tbody.appendTo($table);
 		}
 
@@ -76,6 +79,7 @@ $(function () {
 			}
 		}
 
+		var prevRank = -1;
 		socket.onmessage = function (event) {
 			var parsedData = JSON.parse(event.data);
 			if (parsedData.score) {
@@ -83,7 +87,7 @@ $(function () {
 				updateScore();
 			}
 			if (parsedData.users) {
-				$("#users").text(parsedData.users - 1)
+				$("#users").text(parsedData.users - 1);
 			}
 
 			if (parsedData.neighbors) {
@@ -94,7 +98,20 @@ $(function () {
 				appendToTable(parsedData.topTen, $("#topTen"));
 			}
 
+			if (parsedData.rank) {
+				if (prevRank === -1) {
+					prevRank = parsedData.rank;
+				}
 
+				console.log("prev rank: " + prevRank + " new rank: " + parsedData.rank);
+				if (prevRank < parsedData.rank) {
+					alertMsg(trans.lostRank, "warning");
+				} else if (prevRank > parsedData.rank) {
+					alertMsg(trans.gotRank, "success");
+				}
+
+				prevRank = parsedData.rank;
+			}
 		};
 
 		socket.onerror = function () {
@@ -138,7 +155,7 @@ $(function () {
 
 		var dropzone = $("#dropzone > div");
 		// Drop time based on height to make it slower in smaller screens
-		var dropTime = 1500 - dropzone.height();
+		var dropTime = 1200 - dropzone.height();
 		miniNote.appendTo(dropzone);
 		miniNote.animate({top: dropzone.height() + 30}, dropTime, "easeInExpo",
 						 function () {

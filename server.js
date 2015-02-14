@@ -123,6 +123,7 @@ wss.updateMembers = function (party) {
 
 	var users = partyUsers[party.partyName];
 	var message = JSON.stringify({
+		rank: party.rank,
 		score: party.score,
 		users: users.length,
 		neighbors: party.getNeighborhood(),
@@ -157,7 +158,7 @@ wss.on("connection", function (ws) {
 
 		party.plusOne();
 		wss.updateMembers(party);
-		if (party.rank > 10) {
+		if (party.rank < 10) {
 			wss.updateTopTen();
 		}
 	});
