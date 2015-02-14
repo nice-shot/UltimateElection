@@ -16,12 +16,18 @@ $(function () {
 		var alertDiv = $("<div>");
 		alertDiv.addClass("alert");
 		alertDiv.addClass("alert-" + level);
-		alertDiv.addClass("fade in");
+		alertDiv.hide();
+		// alertDiv.addClass("fade in");
 
 		var closeBtn = $('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"> &times; </span></button>');
 		closeBtn.appendTo(alertDiv);
 		alertDiv.append("&nbsp;" + message);
 		alertDiv.appendTo($(".row.messages"));
+		alertDiv.fadeIn(600);
+		setTimeout(function () {
+			console.log("fading alert out");
+			alertDiv.fadeOut(600);
+		}, 3000);
 	}
 
 	var socket;
@@ -98,12 +104,11 @@ $(function () {
 				appendToTable(parsedData.topTen, $("#topTen"));
 			}
 
-			if (parsedData.rank) {
+			if (parsedData.rank !== undefined) {
 				if (prevRank === -1) {
 					prevRank = parsedData.rank;
 				}
 
-				console.log("prev rank: " + prevRank + " new rank: " + parsedData.rank);
 				if (prevRank < parsedData.rank) {
 					alertMsg(trans.lostRank, "warning");
 				} else if (prevRank > parsedData.rank) {
