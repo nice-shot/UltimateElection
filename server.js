@@ -5,11 +5,11 @@ var express         = require("express");
 var cookieParser    = require("cookie-parser");
 var bodyParser      = require("body-parser");
 var logger          = require("morgan");
-var async           = require("async");
 
-var db              = require("./db.js");
+// var db              = require("./db.js");
 var config          = require("./config.json");
 var trans           = require("./translations.json");
+var partyObj       = require("./party_obj.js");
 
 var cookieSecret = config.secret;
 
@@ -30,12 +30,8 @@ app.get('/', function (req, res) {
 });
 
 // STATEFULL (need to be loaded from DB)
-// Holds the score for each party name
-partyScores = {};
-db.pullParties(partyScores);
-
-// Update DB every few seconds
-setInterval(db.pushParties, config.pushInterval, partyScores);
+// Indexes the party objects by name
+parties = {};
 
 // STATELESS - Holds the party name for each user
 userParty = {};
@@ -50,38 +46,37 @@ function cleanUser(user) {
 	// No point in removing uncached users...
 	if (! (user in userParty)) return;
 
-	var party = userParty[user];
+	var partyName = userParty[user];
 	delete userParty[user];
 
-	userIndex = partyUsers[party].indexOf(parseInt(user, 10));
-	if (userIndex !== -1) partyUsers[party].splice(userIndex, 1);
+	userIndex = partyUsers[partyName].indexOf(parseInt(user, 10));
+	if (userIndex !== -1) partyUsers[partyName].splice(userIndex, 1);
 }
 
 // Adds a userid to the cache
-function addUser(user, party) {
-	userParty[user] = party;
-	if (party in partyUsers) {
-		partyUsers[party].push(user);
+function addUser(user, partyName) {
+	userParty[user] = partyName;
+	if (partyName in partyUsers) {
+		partyUsers[partyName].push(user);
 	}
 	else {
-		partyUsers[party] = [user];
+		partyUsers[partyName] = [user];
 	}
 }
 
 var hebrewRegexp = new RegExp(trans.hebrewRe);
 // Checks if the party name is ok. Returns an error message if not
-function validateParty(party) {
-	if (party === '' || typeof party === 'undefined') {
+function validateParty(partyName) {
+	if (partyName === '' || partyName === undefined) {
 		return trans.err.emptyParty;
 	}
 
-	if (party.length > 3) {
-		return util.format(trans.err.tooBig, party);
+	if (partyName.length > 3) {
+		return util.format(trans.err.tooBig, partyName);
 	}
 
-	debugger
-	if (! hebrewRegexp.test(party)) {
-		return trans.err.onlyHebrew
+	if (! hebrewRegexp.test(partyName)) {
+		return trans.err.onlyHebrew;
 	}
 
 	return null;
@@ -89,18 +84,20 @@ function validateParty(party) {
 
 app.post('/', function (req, res) {
 
-	var party = req.body.party;
+	var partyName = req.body.party;
 
 	// Verify party value
-	var err = validateParty(party);
+	var err = validateParty(partyName);
 	if (err) {
 		res.render('new_connection.jade', {error: err});
 		return;
 	}
 
 	// Add party to cache
-	if (! (party in partyScores)) partyScores[party] = 0;
-	if (! (party in partyUsers)) partyUsers[party] = [];
+	if (! (partyName in parties)) {
+		parties[partyName] = new partyObj.Party(partyName);
+	}
+	if (! (partyName in partyUsers)) partyUsers[partyName] = [];
 
 	// Remove user if he refreshed the page
 	if (req.signedCookies.user) {
@@ -115,25 +112,6 @@ app.post('/', function (req, res) {
 	res.render('vote.jade', {party: party, trans: trans});
 });
 
-app.get('/stats', function (req, res) {
-	var party = userParty[req.signedCookies.user];
-
-	async.parallel(
-		[
-			db.getTopTen,
-			db.getPartyNeighbors.bind(null, party),
-		],
-		function (err, results) {
-			var statsScores = {
-				topTen: results[0],
-				nearUser: results[1],
-				party: party
-			};
-			res.json(statsScores);
-		}
-	);
-});
-
 var server = module.exports = http.createServer(app);
 
 var wss = new WebSocketServer({server: server});
@@ -141,12 +119,13 @@ var wss = new WebSocketServer({server: server});
 // Sends the party score for all the party users
 wss.updateMembers = function (party) {
 	// Prevent users that were dissconected from submiting requests
-	if ( typeof party === "undefined") return;
-	var users = partyUsers[party];
-	var score = partyScores[party];
+	if ( party === undefined) return;
+
+	var users = partyUsers[party.partyName];
 	var message = JSON.stringify({
-		score: score,
-		users: users.length
+		score: party.score,
+		users: users.length,
+		neighbors: party.getNeighborhood(),
 	});
 
 	wss.clients.forEach(function (client) {
@@ -157,17 +136,30 @@ wss.updateMembers = function (party) {
 	});
 };
 
+wss.updateTopTen = function () {
+	var message = JSON.stringify({
+		topTen: partyObj.getTopTen(),
+	});
+	wss.clients.forEach(function (client) {
+		client.send(message);
+	});
+};
+
 wss.on("connection", function (ws) {
 	var user = -1;
-	var party = "";
+	var partyName = "";
 
 	// The user is supposed to only send his user-id which is signed
 	ws.on("message", function (message) {
 		ws.user = user = cookieParser.signedCookie(message, cookieSecret);
-		party = userParty[user];
+		partyName = userParty[partyName];
+		var party = parties[partyName];
 
-		partyScores[party]++;
+		party.plusOne();
 		wss.updateMembers(party);
+		if (party.rank > 10) {
+			wss.updateTopTen();
+		}
 	});
 
 	ws.on("close", function () {

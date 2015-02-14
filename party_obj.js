@@ -1,10 +1,13 @@
 var parties = [];
 
-function Party (name) {
-	// Prevent issues with refrences
-	self = this;
+function Party (partyName) {
+	if (! partyName) {
+		throw new Error("Party must have a name");
+	}
+	// Prevent scope confusions
+	var self = this;
 
-	this.name = name;
+	this.partyName = partyName;
 	this.score = 0;
 	this.rank = parties.push(this) - 1;
 
@@ -56,8 +59,14 @@ function Party (name) {
 	}
 
 	this.plusOne = function() {
-		self.score++;
+		this.score++;
 		checkRank();
+	};
+
+	// Returns a list with the 3 preceding parties, this and the 3 proceeding
+	this.getNeighborhood = function () {
+		var neighborhood = parties.slice(this.rank - 3, 7);
+		return parties.slice(this.rank - 3, 7);
 	};
 }
 

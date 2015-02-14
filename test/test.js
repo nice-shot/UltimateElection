@@ -10,8 +10,12 @@ describe("party_obj", function () {
 			'til': new party.Party('til'),
 		};
 
+		expect(parties.bib.rank).to.equal(1);
 		parties.bib.plusOne();
 		expect(parties.bib.rank).to.equal(0);
+		parties.til.plusOne();
+		parties.til.plusOne();
+		expect(parties.bib.rank).to.equal(1);
 	});
 });
 
