@@ -1,9 +1,4 @@
 {
 	"secret": "TerribleSecret",
 	"pushInterval": 1000,
-	"db": {
-		"host": "localhost",
-		"user": "root",
-		"password": "root"
-	}
 }

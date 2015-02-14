@@ -24,7 +24,7 @@ $(function () {
 			message.addClass("alert alert-danger");
 			message.text("לא ניתן להתחבר לשרת :(");
 			message.appendTo($(".row.messages"));
-			return
+			return;
 		}
 
 		socket.onopen = function () {
