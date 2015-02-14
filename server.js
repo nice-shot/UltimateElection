@@ -26,7 +26,7 @@ app.set('view engine', 'jade');
 
 // Sends the 'write the party name' page
 app.get('/', function (req, res) {
-	res.render('new_connection.jade');
+	res.render('new_connection.jade', {trans: trans});
 });
 
 // STATEFULL (need to be loaded from DB)

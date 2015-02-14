@@ -2,11 +2,11 @@ extends ./layout.jade
 
 block content
 	div.row.rtl
-		h2.text-center איך משחקים?
+		h2.text-center= trans.gameTitle
 		ol
-			li בחר שם מפלגה
-			li לחץ על הפתק כדי להצביע
-			li המפלגה עם מספר הקולות הגדול ביותר עד ה17.3 תרכיב ממשלה!
+			li= trans.choosePartyName
+			li= trans.clickNoteToVote
+			li= trans.winnerIs
 
 	form(method="POST")
 		div.row.note
