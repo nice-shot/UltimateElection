@@ -42,7 +42,6 @@ function Party (partyName) {
 
 	// Returns a list with the 3 preceding parties, this and the 3 proceeding
 	this.getNeighborhood = function () {
-		debugger;
 		var startRank = self.rank - 3;
 		var endRank = self.rank + 3;
 		while (startRank < 0) {

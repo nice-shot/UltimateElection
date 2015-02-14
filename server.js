@@ -149,7 +149,6 @@ var wss = new WebSocketServer({server: server});
 wss.updateMembers = function (party) {
 	// Prevent users that were dissconected from submiting requests
 	if ( party === undefined) return;
-	debugger;
 	var users = partyUsers[party.partyName];
 	var message = JSON.stringify({
 		rank: party.rank,
@@ -178,6 +177,13 @@ wss.updateTopTen = function () {
 wss.on("connection", function (ws) {
 	var user = -1;
 	var partyName = "";
+
+	(function initialMessage () {
+		var message = JSON.stringify({
+			topTen: partyObj.getTopTen(),
+		});
+		ws.send(message);
+	})();
 
 	// The user is supposed to only send his user-id which is signed
 	ws.on("message", function (message) {
