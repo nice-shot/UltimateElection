@@ -14,7 +14,7 @@ var partyObj       = require("./party_obj.js");
 var cookieSecret = config.secret;
 
 app = express();
-app.use(logger("dev"));
+app.use(logger("common"));
 app.use(cookieParser(cookieSecret));
 app.use(bodyParser.urlencoded({
 	extended: true,
