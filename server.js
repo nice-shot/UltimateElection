@@ -5,6 +5,7 @@ var express         = require("express");
 var cookieParser    = require("cookie-parser");
 var bodyParser      = require("body-parser");
 var logger          = require("morgan");
+var fs              = require("fs");
 
 // var db              = require("./db.js");
 var config          = require("./config.json");
@@ -29,9 +30,37 @@ app.get('/', function (req, res) {
 	res.render('new_connection.jade', {trans: trans});
 });
 
-// STATEFULL (need to be loaded from DB)
+// STATEFULL (need to be loaded from cache)
 // Indexes the party objects by name
-parties = {};
+var parties = {};
+
+(function setUpParties () {
+	var partyCache = {};
+	try {
+		partyCache = require("./.cache.json");
+	}
+	catch (e) {
+		partyCache = require("./initial_votes.json");
+	}
+
+	for (partyName in partyCache) {
+		party = new partyObj.Party(partyName);
+		parties[partyName] = party;
+		for (var i=0; i < partyCache[partyName].score; i++) {
+			party.plusOne();
+		}
+	}
+})();
+
+var isWriting = false;
+setInterval(function () {
+	if (isWriting) return;
+	fs.open("./.cache.json", 'w', function (err, fd) {
+		isWriting = true;
+		fs.writeSync(fd, JSON.stringify(parties));
+		isWriting = false;
+	});
+}, config.pushInterval);
 
 // STATELESS - Holds the party name for each user
 userParty = {};
