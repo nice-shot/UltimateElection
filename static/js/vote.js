@@ -25,7 +25,6 @@ $(function () {
 		alertDiv.appendTo($(".row.messages"));
 		alertDiv.fadeIn(600);
 		setTimeout(function () {
-			console.log("fading alert out");
 			alertDiv.fadeOut(600);
 		}, 3000);
 	}
@@ -88,6 +87,7 @@ $(function () {
 		var prevRank = -1;
 		socket.onmessage = function (event) {
 			var parsedData = JSON.parse(event.data);
+			console.log(parsedData);
 			if (parsedData.score) {
 				score = parsedData.score;
 				updateScore();
