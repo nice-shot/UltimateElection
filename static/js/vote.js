@@ -1,7 +1,24 @@
 $(function () {
 	"use strict";
+
+	var trans = $.ajax({
+		url: "/lang/he.json",
+		async: false,
+		dataType: "json"
+	}).responseJSON;
 	FastClick.attach(document.body);
 	$("#party").fitText(0.16);
+
+	function alert(message, level) {
+		var alertDiv = $("<div>");
+		alertDiv.addClass("alert");
+		alertDiv.addClass("alert-" + level);
+
+		var closeBtn = $('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+		closeBtn.appendTo(alertDiv);
+		alertDiv.append(message);
+		alertDiv.appendTo($(".row.messages"));
+	}
 
 	var socket;
 
@@ -22,12 +39,14 @@ $(function () {
 		else {
 			var message = $("<div>");
 			message.addClass("alert alert-danger");
-			message.text("לא ניתן להתחבר לשרת :(");
+			message.text();
 			message.appendTo($(".row.messages"));
 			return;
 		}
 
 		socket.onopen = function () {
+			// Restart the retries
+			retries = 0;
 			sendCookie();
 		};
 
@@ -55,7 +74,7 @@ $(function () {
 		socket.onerror = function () {
 			retries++;
 			setUpSocket();
-		}
+		};
 	})();
 
 

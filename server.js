@@ -105,11 +105,11 @@ app.post('/', function (req, res) {
 	}
 
 	var user = ++userSeq;
-	addUser(user, party);
+	addUser(user, partyName);
 
 
 	res.cookie('user', user, {signed: true});
-	res.render('vote.jade', {party: party, trans: trans});
+	res.render('vote.jade', {party: partyName, trans: trans});
 });
 
 var server = module.exports = http.createServer(app);
@@ -152,7 +152,7 @@ wss.on("connection", function (ws) {
 	// The user is supposed to only send his user-id which is signed
 	ws.on("message", function (message) {
 		ws.user = user = cookieParser.signedCookie(message, cookieSecret);
-		partyName = userParty[partyName];
+		partyName = userParty[parseInt(user)];
 		var party = parties[partyName];
 
 		party.plusOne();
@@ -165,6 +165,9 @@ wss.on("connection", function (ws) {
 	ws.on("close", function () {
 		if (user === -1) return;
 		cleanUser(user);
-		if (party) wss.updateMembers(party);
+		if (partyName) {
+			var party = parties[partyName];
+			wss.updateMembers(party);
+		}
 	});
 });
