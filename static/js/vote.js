@@ -126,9 +126,6 @@ $(function () {
 	})();
 
 
-
-
-
 	var noteInd = 0;
 	function dropNote() {
 		var note = $("#note");
