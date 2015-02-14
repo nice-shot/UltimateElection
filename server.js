@@ -57,7 +57,8 @@ setInterval(function () {
 	if (isWriting) return;
 	fs.open("./.cache.json", 'w', function (err, fd) {
 		isWriting = true;
-		fs.writeSync(fd, JSON.stringify(parties));
+		var partiesStr = JSON.stringify(parties);
+		fs.writeSync(fd, partiesStr);
 		isWriting = false;
 	});
 }, config.pushInterval);
@@ -127,7 +128,6 @@ app.post('/', function (req, res) {
 		parties[partyName] = new partyObj.Party(partyName);
 	}
 	if (! (partyName in partyUsers)) partyUsers[partyName] = [];
-
 	// Remove user if he refreshed the page
 	if (req.signedCookies.user) {
 		cleanUser(req.signedCookies.user);
@@ -149,7 +149,7 @@ var wss = new WebSocketServer({server: server});
 wss.updateMembers = function (party) {
 	// Prevent users that were dissconected from submiting requests
 	if ( party === undefined) return;
-
+	debugger;
 	var users = partyUsers[party.partyName];
 	var message = JSON.stringify({
 		rank: party.rank,

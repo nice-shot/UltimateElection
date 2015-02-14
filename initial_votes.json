@@ -1,3 +1,12 @@
 {
-	"שקר": {"partyName": "שקר", "rank": 0, "score": 234}
+	"שקר": {"partyName": "שקר", "score": 915},
+	"דג": {"partyName": "דג", "score": 591},
+	"ש": {"partyName": "ש", "score": 538},
+	"פיל": {"partyName": "פיל", "score": 268},
+	"קקי": {"partyName": "קקי", "score": 148},
+	"מחל": {"partyName": "מחל", "score": 143},
+	"מרצ": {"partyName": "מרצ", "score": 84},
+	"אמת": {"partyName": "אמת", "score": 79},
+	"חם": {"partyName": "חם", "score": 77},
+	"ראש": {"partyName": "ראש", "score":  45}
 }
