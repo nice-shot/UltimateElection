@@ -1,3 +1,7 @@
+/**
+ * Exports an object that can create new parties. Also keeps the partie's rank
+ * and allows exporting some details regarding that.
+ */
 var parties = [];
 
 function Party (partyName) {
@@ -10,6 +14,7 @@ function Party (partyName) {
 	this.partyName = partyName;
 	this.score = 0;
 	this.rank = parties.push(this) - 1;
+	this.voters = [];
 
 	// Checks if party is larger than higher ranked and updates accordingly
 	function ltPrev() {
@@ -49,13 +54,28 @@ function Party (partyName) {
 		}
 		return parties.slice(startRank, endRank);
 	};
+
+	this.addUser = function(user) {
+		this.voters.push(user);
+	};
+
+	this.removeUser = function(user) {
+		var userIndex = this.voters.indexOf(user);
+    	if (userIndex !== -1) this.voters.splice(userIndex, 1);
+	};
 }
 
-function getTopTen() {
+function getTopTen () {
 	return parties.slice(0 ,10);
+}
+
+// Returns the parties sorted from most to least votes
+function getOrderedParties () {
+	return parties.slice();
 }
 
 module.exports = {
 	Party: Party,
 	getTopTen: getTopTen,
+	getOrderedParties: getOrderedParties,
 };

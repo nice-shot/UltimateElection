@@ -1,5 +1,8 @@
 {
     "gameTitle": "המרוץ לראשות",
+    "chooseParty": "בחר מפלגה",
     "clickToGetVotes": "לחץ על הפתק כמה שיותר כדי לצבור קולות",
-    "chooseParty": "בחר מפלגה"
+    "partyUnavailable": "המפלגה שנבחרה לא קיימת",
+    "votes": "קולות",
+    "voters": "מצביעים"
 }
