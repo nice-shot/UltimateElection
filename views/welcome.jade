@@ -1,5 +1,8 @@
 extends ./layout.jade
 
+block cssSite
+    link(href="/css/welcome.css", rel="stylesheet")
+
 block content
     div.row
         h1.text-center= trans.gameTitle
