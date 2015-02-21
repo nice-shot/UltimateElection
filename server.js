@@ -43,7 +43,7 @@ var parties = {};
 		partyCache = require("./initial_votes.json");
 	}
 
-	for (partyName in partyCache) {
+	for (var partyName in partyCache) {
 		party = new partyObj.Party(partyName);
 		parties[partyName] = party;
 		for (var i=0; i < partyCache[partyName].score; i++) {
@@ -119,7 +119,7 @@ app.post('/', function (req, res) {
 	// Verify party value
 	var err = validateParty(partyName);
 	if (err) {
-		res.render('new_connection.jade', {error: err});
+		res.render('new_connection.jade', {error: err, trans: trans});
 		return;
 	}
 
