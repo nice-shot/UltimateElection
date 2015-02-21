@@ -1,0 +1,23 @@
+extends ./layout.jade
+
+block content
+    div row
+        h1.text-center= trans.gameTitle
+
+    div row
+        h2.text-center= trans.chooseParty
+        - for (var i=0; i < parties.length; i++)
+            - var party = parties[i]
+            div.col-xs-6
+                h2.text-center= party.name
+                p
+                    span= trans.votes + ":"
+                    span= party.votes
+                p
+                    span= trans.voters  + ":"
+                    span= party.voters.length
+
+    div row.rtl
+        h2.
+
+
