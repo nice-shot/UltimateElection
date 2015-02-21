@@ -1,6 +1,7 @@
 body {
     background: linear-gradient(#19b2de, #1B7F9E);
     font-family: carmela;
+    color: white;
 }
 
 .party-container {
@@ -11,9 +12,10 @@ body {
 .party {
     background-color: #c6f2ff;
     border: solid 3px;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
     padding-left: 5px;
     padding-right: 5px;
+    color: black;
 }
 
 .party h2 {
