@@ -1,10 +1,10 @@
 extends ./layout.jade
 
 block content
-    div row
+    div.row
         h1.text-center= trans.gameTitle
 
-    div row
+    div.row
         h2.text-center= trans.chooseParty
         - for (var i=0; i < parties.length; i++)
             - var party = parties[i]
@@ -17,7 +17,9 @@ block content
                     span= trans.voters  + ":"
                     span= party.voters.length
 
-    div row.rtl
-        h2.
+    div.row
+        h2.text-center= trans.clickToGetVotes
 
-
+    div.row
+        div.col-xs-6.center-block
+            img(src="img/clickMeNote.png")
