@@ -56,6 +56,10 @@ var isWriting = false;
 setInterval(function () {
 	if (isWriting) return;
 	fs.open("./.cache.json", 'w', function (err, fd) {
+		if (err) {
+			console.log("problem writing cache: %s", err);
+			return;
+		}
 		isWriting = true;
 		var partiesStr = JSON.stringify(parties);
 		fs.writeSync(fd, partiesStr);

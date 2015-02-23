@@ -16,16 +16,17 @@ $(function () {
 		var alertDiv = $("<div>");
 		alertDiv.addClass("alert");
 		alertDiv.addClass("alert-" + level);
-		alertDiv.hide();
-		// alertDiv.addClass("fade in");
 
 		var closeBtn = $('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"> &times; </span></button>');
 		closeBtn.appendTo(alertDiv);
 		alertDiv.append("&nbsp;" + message);
 		alertDiv.appendTo($(".row.messages"));
-		alertDiv.fadeIn(600);
+		// alertDiv.toggle("drop", {direction: "up"}, 600);
+		alertDiv.animate({top: 0}, 600);
 		setTimeout(function () {
-			alertDiv.fadeOut(600);
+			// alertDiv.toggle("drop", {direction: "up"}, 600);
+			// alertDiv.fadeOut(600);
+			alertDiv.animate({top: -53}, 600);
 		}, 3000);
 	}
 
@@ -87,7 +88,6 @@ $(function () {
 		var prevRank = -1;
 		socket.onmessage = function (event) {
 			var parsedData = JSON.parse(event.data);
-			console.log(parsedData);
 			if (parsedData.score) {
 				score = parsedData.score;
 				updateScore();
