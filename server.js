@@ -43,7 +43,7 @@ var parties = {};
 		partyCache = require("./initial_votes.json");
 	}
 
-	for (partyName in partyCache) {
+	for (var partyName in partyCache) {
 		party = new partyObj.Party(partyName);
 		parties[partyName] = party;
 		for (var i=0; i < partyCache[partyName].score; i++) {
@@ -56,6 +56,10 @@ var isWriting = false;
 setInterval(function () {
 	if (isWriting) return;
 	fs.open("./.cache.json", 'w', function (err, fd) {
+		if (err) {
+			console.log("problem writing cache: %s", err);
+			return;
+		}
 		isWriting = true;
 		var partiesStr = JSON.stringify(parties);
 		fs.writeSync(fd, partiesStr);
