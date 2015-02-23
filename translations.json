@@ -1,5 +1,5 @@
 {
-	"hebrewRe": "^[א-ת]+$",
+	"hebrewRe": "^[א-ת\"]+$",
 	"votesCounted": "קולות בקלפי",
 	"additionalVoters": "מצביעים נוספים",
 	"gameTitle": "המרוץ לראשות",

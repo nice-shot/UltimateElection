@@ -119,7 +119,7 @@ app.post('/', function (req, res) {
 	// Verify party value
 	var err = validateParty(partyName);
 	if (err) {
-		res.render('new_connection.jade', {error: err});
+		res.render('new_connection.jade', {error: err, trans: trans});
 		return;
 	}
 
