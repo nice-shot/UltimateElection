@@ -16,6 +16,7 @@ $(function () {
 		var alertDiv = $("<div>");
 		alertDiv.addClass("alert");
 		alertDiv.addClass("alert-" + level);
+		alertDiv.css("top", -53);
 
 		var closeBtn = $('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"> &times; </span></button>');
 		closeBtn.appendTo(alertDiv);
