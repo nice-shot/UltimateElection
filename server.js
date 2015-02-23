@@ -65,7 +65,7 @@ setInterval(function () {
 		fs.writeSync(fd, partiesStr);
 		isWriting = false;
 	});
-}, config.pushInterval);
+}, config.cacheInterval);
 
 // STATELESS - Holds the party name for each user
 userParty = {};

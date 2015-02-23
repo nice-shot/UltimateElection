@@ -1,4 +1,4 @@
 {
 	"secret": "TerribleSecret",
-	"cacheInterval": 0
+	"cacheInterval": 5000
 }
