@@ -21,3 +21,24 @@ body {
 .party h2 {
     font-family: frankruehl;
 }
+
+#clickMeNote {
+    -webkit-transform: rotate(3deg);
+       -moz-transform: rotate(3deg);
+            transform: rotate(3deg);
+    -webkit-box-shadow: 10px 11px 19px -2px rgba(0,0,0,0.75);
+       -moz-box-shadow: 10px 11px 19px -2px rgba(0,0,0,0.75);
+            box-shadow: 10px 11px 19px -2px rgba(0,0,0,0.75);
+}
+
+#clickMeNote:hover {
+    -webkit-box-shadow: 10px 11px 19px 5px rgba(0,0,0,0.75);
+       -moz-box-shadow: 10px 11px 19px 5px rgba(0,0,0,0.75);
+            box-shadow: 10px 11px 19px 5px rgba(0,0,0,0.75);
+}
+
+#clickMeNote:active {
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+}
