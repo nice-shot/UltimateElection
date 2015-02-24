@@ -55,14 +55,12 @@ var parties = {};
 var isWriting = false;
 setInterval(function () {
 	if (isWriting) return;
-	fs.open("./.cache.json", 'w', function (err, fd) {
+	isWriting = true;
+	var partiesStr = JSON.stringify(parties);
+	fs.writeFile("./.cache.json", partiesStr, function(err) {
 		if (err) {
-			console.log("problem writing cache: %s", err);
-			return;
+			console.log(err);
 		}
-		isWriting = true;
-		var partiesStr = JSON.stringify(parties);
-		fs.writeSync(fd, partiesStr);
 		isWriting = false;
 	});
 }, config.cacheInterval);
